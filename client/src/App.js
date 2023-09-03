@@ -9,6 +9,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Header } from './components/Header';
 
 function App() {
   const [ingredients, setIngredients] = useState([])
@@ -43,9 +44,7 @@ function App() {
 
   return (
     <>
-      <Button variant="contained" color="primary">
-      Click me
-    </Button>
+    <Header />
     <div className="searchbar">
       <input
           type="text"
