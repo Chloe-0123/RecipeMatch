@@ -12,6 +12,7 @@ import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Header } from './components/Header';
 import colortheme from './theme/theme';
 import { ThemeProvider } from '@emotion/react';
+import { Link } from '@mui/material'
 
 function App() {
   const [ingredients, setIngredients] = useState([])
@@ -41,14 +42,18 @@ function App() {
 
   console.log(ingredients)
   
-
-  
+  function handleScroll() {
+    const element = document.getElementById('fridge');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   return (
     <>
     <Header />
     <ThemeProvider theme={colortheme}>
-    <div className="main tw-h-[calc(100vh)] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-bottom md:tw-bg-no-repeat">
+    <div className="main tw-h-[calc(100vh)] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-bottom md:tw-bg-no-repeat tw-scroll-smooth">
       <div className="text tw-w-[100%] tw-h-[30%] tw-flex tw-flex-col tw-justify-end tw-items-center">
         <p className='tw-text-[1rem] sm:tw-text-[1.5rem]'>Find your recipes with</p>
         <p className='tw-text-[2rem] sm:tw-text-[4rem]'>RecipeMatch</p>
@@ -56,14 +61,14 @@ function App() {
       <div className="desc tw-relative tw-flex tw-flex-col tw-justify-center tw-items-center tw-pt-4">
         <p>Don't know what to make for dinner?</p>
         <p>Tell us what's in your fridge!</p>
-        <div className="button">
-          <Button variant="contained" color='orange'>Find my recipes</Button>
+        <div className="button tw-pt-8">
+          <Button variant="contained" color='orange' onClick={handleScroll}>Find my recipes</Button>
         </div>
         
       </div>
 
     </div>
-    <div className="main tw-h-[100vh] tw-bg-[url('../public/imgs/page1.png')] tw-bg-top">
+    <div id="fridge" className="main tw-h-[100vh] tw-bg-[url('../public/imgs/page1.png')] tw-bg-top">
       <div className="searchbar tw-pt-32">
           <input
               type="text"
