@@ -13,6 +13,7 @@ import { Header } from './components/Header';
 import colortheme from './theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { Link } from '@mui/material'
+import { useMediaQuery, useTheme } from '@mui/material';
 
 function App() {
   const [ingredients, setIngredients] = useState([])
@@ -49,226 +50,236 @@ function App() {
     }
   }
 
+  const sizetheme = useTheme();
+  const sm = useMediaQuery(sizetheme.breakpoints.down('sm'));
+  const md = useMediaQuery(sizetheme.breakpoints.between('md', 'lg'));
+  const lg = useMediaQuery(sizetheme.breakpoints.up('xl'));
+
   return (
     <>
     <Header />
     <ThemeProvider theme={colortheme}>
-    <div className="main tw-h-[calc(100vh)] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-bottom md:tw-bg-no-repeat tw-scroll-smooth">
+    <div className="main tw-h-[calc(100vh)] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-no-repeat tw-scroll-smooth md:tw-bg-bottom">
       <div className="text tw-w-[100%] tw-h-[30%] tw-flex tw-flex-col tw-justify-end tw-items-center">
         <p className='tw-text-[1rem] sm:tw-text-[1.5rem]'>Find your recipes with</p>
         <p className='tw-text-[2rem] sm:tw-text-[4rem]'>RecipeMatch</p>
       </div>
-      <div className="desc tw-relative tw-flex tw-flex-col tw-justify-center tw-items-center tw-pt-4">
-        <p>Don't know what to make for dinner?</p>
+      <div className="desc tw-left-[32%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-pt-[15rem]">
+        <p className='tw-text-[1rem] md:tw-text-[2rem]'>Don't know what to make for dinner?</p>
         <p>Tell us what's in your fridge!</p>
         <div className="button tw-pt-8">
-          <Button variant="contained" color='orange' onClick={handleScroll}>Find my recipes</Button>
+          {!sm ? <Button variant="contained" color='black' onClick={handleScroll}><p>Find my recipes</p></Button> : <Button variant="contained" color='grey' onClick={handleScroll}>Find my recipes</Button>}
         </div>
         
       </div>
 
     </div>
-    <div id="fridge" className="main tw-h-[100vh] tw-bg-[url('../public/imgs/page1.png')] tw-bg-top">
-      <div className="searchbar tw-pt-32">
-          <input
-              type="text"
-              placeholder="Search ingredients"
-              value={searchTerm}
-              onChange={handleSearchInputChange}
-            />
-            <ul>
-            {ingredients.map((ingredient) => (
-              <li key={ingredient.id}>{ingredient.name}</li>
-            ))}
-          </ul>
-      </div>
-      <div className='tw-w-[50%]'>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>Absolute Essentials</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
+    <div className="instruction tw-bg-[url('../public/imgs/yellow.png')] tw-min-h-screen" id='fridge'>
+      <h2 className='tw-text-center tw-pt-16'>What's in your fridge?</h2>
+      <h3 className='tw-text-center tw-pb-8'>You can choose from our list of essential ingredients, or use the search bar to add ingredients!</h3>
+      <div className="tw-bg-top md:tw-flex md:tw-gap-[3%]">
+        <div className="searchbar tw-pt-32 md:tw-w-[30%]">
+            <input
+                type="text"
+                placeholder="Search ingredients"
+                value={searchTerm}
+                onChange={handleSearchInputChange}
+              />
+              <ul>
+              {ingredients.map((ingredient) => (
+                <li key={ingredient.id}>{ingredient.name}</li>
+              ))}
+            </ul>
+        </div>
+        <div className='tw-w-[100%] md:tw-w-[30%] tw-flex tw-flex-col tw-gap-2 tw-items-center tw-justify-center'>
+          <Accordion style={{ borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%' }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Absolute Essentials</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <FormGroup color='grey'>
+                  <div className="essentials tw-flex tw-flex-wrap opacity: '1'">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="salt and pepper" iconStyle={{fill: 'grey'}}/>
+                    
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="olive oil" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="vegetable oil" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="flour" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="unbleached all purpose flour" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="sugar" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion style={{borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Canned Goods</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
               <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="salt and pepper" />
-                  <FormControlLabel control={<Checkbox/>} label="olive oil" />
-                  <FormControlLabel control={<Checkbox/>} label="vegetable oil" />
-                  <FormControlLabel control={<Checkbox/>} label="flour" />
-                  <FormControlLabel control={<Checkbox/>} label="unbleached all purpose flour" />
-                  <FormControlLabel control={<Checkbox/>} label="sugar" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Canned Goods</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-            <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="chicken broth" />
-                  <FormControlLabel control={<Checkbox/>} label="chicken stock" />
-                  <FormControlLabel control={<Checkbox/>} label="beef broth" />
-                  <FormControlLabel control={<Checkbox/>} label="beef stock" />
-                  <FormControlLabel control={<Checkbox/>} label="canned tomato sauce" />
-                  <FormControlLabel control={<Checkbox/>} label="canned tomatoes" />
-                  <FormControlLabel control={<Checkbox/>} label="tomato paste" />
-                  <FormControlLabel control={<Checkbox/>} label="marinara sauce" />
-                  <FormControlLabel control={<Checkbox/>} label="canned tuna" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Starches/ Dry Goods</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-            <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="pasta" />
-                  <FormControlLabel control={<Checkbox/>} label="rice" />
-                  <FormControlLabel control={<Checkbox/>} label="lentils" />
-                  <FormControlLabel control={<Checkbox/>} label="breadcrumbs" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Essential Vegetables</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-            <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="potato" />
-                  <FormControlLabel control={<Checkbox/>} label="onion" />
-                  <FormControlLabel control={<Checkbox/>} label="garlic" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Condiments</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-            <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="balsamic viengar" />
-                  <FormControlLabel control={<Checkbox/>} label="distilled white vinegar" />
-                  <FormControlLabel control={<Checkbox/>} label="soy sauce" />
-                  <FormControlLabel control={<Checkbox/>} label="hot sauce" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Spices</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-            <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="dried basil" />
-                  <FormControlLabel control={<Checkbox/>} label="red pepper flakes" />
-                  <FormControlLabel control={<Checkbox/>} label="curry powder" />
-                  <FormControlLabel control={<Checkbox/>} label="chili powder" />
-                  <FormControlLabel control={<Checkbox/>} label="garlic powder" />
-                  <FormControlLabel control={<Checkbox/>} label="onion powder" />
-                  <FormControlLabel control={<Checkbox/>} label="oregano" />
-                  <FormControlLabel control={<Checkbox/>} label="paprike" />
-                  <FormControlLabel control={<Checkbox/>} label="dried parsley" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Fridge Items</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-            <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="egg" />
-                  <FormControlLabel control={<Checkbox/>} label="milk" />
-                  <FormControlLabel control={<Checkbox/>} label="butter" />
-                  <FormControlLabel control={<Checkbox/>} label="ketchup" />
-                  <FormControlLabel control={<Checkbox/>} label="mayonnaise" />
-                  <FormControlLabel control={<Checkbox/>} label="mustard" />
-                  <FormControlLabel control={<Checkbox/>} label="parmesan" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Protein</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-            <FormGroup>
-                <div className="essentials tw-flex tw-flex-wrap">
-                  <FormControlLabel control={<Checkbox/>} label="hot dogs" />
-                  <FormControlLabel control={<Checkbox/>} label="real bacon pieces" />
-                  <FormControlLabel control={<Checkbox/>} label="beef" />
-                  <FormControlLabel control={<Checkbox/>} label="chicken breast" />
-                </div>
-              </FormGroup>
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        
-      </div>
-      
+                  <div className="essentials tw-flex tw-flex-wrap">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="chicken broth" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="chicken stock" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="beef broth" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="beef stock" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="canned tomato sauce" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="canned tomatoes" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="tomato paste" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="marinara sauce" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="canned tuna" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion style={{borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Starches/ Dry Goods</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+              <FormGroup>
+                  <div className="essentials tw-flex tw-flex-wrap">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="pasta" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="rice" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="lentils" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="breadcrumbs" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion style={{borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Essential Vegetables</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+              <FormGroup>
+                  <div className="essentials tw-flex tw-flex-wrap">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="potato" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="onion" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="garlic" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion style={{borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Condiments</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+              <FormGroup>
+                  <div className="essentials tw-flex tw-flex-wrap">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="balsamic viengar" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="distilled white vinegar" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="soy sauce" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="hot sauce" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion style={{borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Spices</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+              <FormGroup>
+                  <div className="essentials tw-flex tw-flex-wrap">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="dried basil" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="red pepper flakes" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="curry powder" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="chili powder" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="garlic powder" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="onion powder" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="oregano" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="paprike" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="dried parsley" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion style={{borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Fridge Items</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+              <FormGroup>
+                  <div className="essentials tw-flex tw-flex-wrap">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="egg" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="milk" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="butter" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="ketchup" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="mayonnaise" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="mustard" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="parmesan" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion style={{borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Protein</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+              <FormGroup>
+                  <div className="essentials tw-flex tw-flex-wrap">
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="hot dogs" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="real bacon pieces" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="beef" />
+                    <FormControlLabel control={<Checkbox color="grey"/>} label="chicken breast" />
+                  </div>
+                </FormGroup>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <div className="current md:tw-w-[30%] tw-border-2 tw-border-[#C4C1A4] tw-rounded-[10px] tw-h-[60vh]">
 
+        </div>
+      </div>
     </div>
 
     </ThemeProvider>
