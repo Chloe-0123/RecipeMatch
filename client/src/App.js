@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Header } from './components/Header';
+import colortheme from './theme/theme';
+import { ThemeProvider } from '@emotion/react';
 
 function App() {
   const [ingredients, setIngredients] = useState([])
@@ -45,8 +47,20 @@ function App() {
   return (
     <>
     <Header />
-    <div className="main tw-h-[calc(100vh-60px)] tw-bg-[url('../public/imgs/page1-1.jpg')] tw-bg-bottom">
-      
+    <ThemeProvider theme={colortheme}>
+    <div className="main tw-h-[calc(100vh)] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-bottom md:tw-bg-no-repeat">
+      <div className="text tw-w-[100%] tw-h-[30%] tw-flex tw-flex-col tw-justify-end tw-items-center">
+        <p className='tw-text-[1rem] sm:tw-text-[1.5rem]'>Find your recipes with</p>
+        <p className='tw-text-[2rem] sm:tw-text-[4rem]'>RecipeMatch</p>
+      </div>
+      <div className="desc tw-relative tw-flex tw-flex-col tw-justify-center tw-items-center tw-pt-4">
+        <p>Don't know what to make for dinner?</p>
+        <p>Tell us what's in your fridge!</p>
+        <div className="button">
+          <Button variant="contained" color='orange'>Find my recipes</Button>
+        </div>
+        
+      </div>
 
     </div>
     <div className="main tw-h-[100vh] tw-bg-[url('../public/imgs/page1.png')] tw-bg-top">
@@ -251,6 +265,9 @@ function App() {
       
 
     </div>
+
+    </ThemeProvider>
+   
    
    
    

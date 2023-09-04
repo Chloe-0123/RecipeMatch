@@ -5,12 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecipeResults } from './views/recipeResults'
+import { Test } from './views/test';
 
 const router = createBrowserRouter([
-  { path: "/",
-    element: <App />},
-  { path: "/results",
-    element: <RecipeResults />}
+  { path: "/", element: <App />},
+  { path: "/results", element: <RecipeResults />},
+  { path: "/test", element: <Test />}
 ])
 
 
