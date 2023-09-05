@@ -18,6 +18,14 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addIngredient, deleteIngredient } from './actions';
 import { useSelector } from 'react-redux';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { styled } from '@mui/material/styles';
+
 
 function App() {
   const [ingredients, setIngredients] = useState([])
@@ -70,6 +78,10 @@ function App() {
     }
   }
 
+  function handleSearchClick(name) {
+    dispatch(addIngredient(name))
+  }
+
   console.log(ingredientList)
 
   return (
@@ -102,7 +114,7 @@ function App() {
       <h2 className='tw-text-center tw-pt-16'>What's in your fridge?</h2>
       <h3 className='tw-text-center tw-pb-8'>You can choose from our list of essential ingredients, or use the search bar to add ingredients!</h3>
       <div className="tw-bg-top md:tw-flex md:tw-gap-[3%]">
-        <div className="searchbar tw-pt-32 md:tw-w-[30%]">
+        <div className="searchbar md:tw-w-[30%]">
             <input
                 type="text"
                 placeholder="Search ingredients"
@@ -110,8 +122,22 @@ function App() {
                 onChange={handleSearchInputChange}
               />
               <ul>
-              {ingredients.map((ingredient) => (
-                <li key={ingredient.id}>{ingredient.name}</li>
+              {ingredients.map((ingredient) => (<>
+               
+                  <ListItem>
+                    <button onClick={() => handleSearchClick(ingredient.name)}>
+                      <ListItemText
+                        primary={`${ingredient.name}`}
+                        secondary= ''
+                      />
+
+                    </button>
+                   
+                  </ListItem>
+                
+                
+              </>
+                
               ))}
             </ul>
         </div>
