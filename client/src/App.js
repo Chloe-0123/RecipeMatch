@@ -12,12 +12,17 @@ import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Header } from './components/Header';
 import colortheme from './theme/theme';
 import { ThemeProvider } from '@emotion/react';
-import { Link } from '@mui/material'
 import { useMediaQuery, useTheme } from '@mui/material';
+import { Avatar } from '@mui/material';
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { addIngredient, deleteIngredient } from './actions';
+import { useSelector } from 'react-redux';
 
 function App() {
   const [ingredients, setIngredients] = useState([])
   const [searchTerm, setSearchTerm] = useState([])
+  const ingredientList = useSelector((state) => state.ingredientsList)
 
 
   const handleSearchInputChange = async (event) => {
@@ -41,7 +46,6 @@ function App() {
     }
   };
 
-  console.log(ingredients)
   
   function handleScroll() {
     const element = document.getElementById('fridge');
@@ -55,6 +59,19 @@ function App() {
   const md = useMediaQuery(sizetheme.breakpoints.between('md', 'lg'));
   const lg = useMediaQuery(sizetheme.breakpoints.up('xl'));
 
+  const dispatch = useDispatch()
+  const inputRef = useRef(null);
+
+  function onBoxClick(event, label) {
+    if (event.target.checked) {
+      dispatch(addIngredient(label))
+    } else {
+      dispatch(deleteIngredient(label))
+    }
+  }
+
+  console.log(ingredientList)
+
   return (
     <>
     <Header />
@@ -65,6 +82,13 @@ function App() {
         <p className='tw-text-[2rem] sm:tw-text-[4rem]'>RecipeMatch</p>
       </div>
       <div className="desc tw-left-[32%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-pt-[15rem]">
+        <div className="foodpic tw-flex md:tw-gap-4 tw-flex-wrap tw-w-[100%] tw-justify-center md:tw-pb-8">
+          <Avatar alt="Remy Sharp" src="/imgs/tacos.jpg" sx={{width: '60px', height: '60px'}}/>
+          <Avatar alt="Remy Sharp" src="/imgs/bowl.jpg" sx={{width: '60px', height: '60px'}}/>
+          <Avatar alt="Remy Sharp" src="/imgs/noodles.jpg" sx={{width: '60px', height: '60px'}}/>
+          <Avatar alt="Remy Sharp" src="/imgs/salad.jpg" sx={{width: '60px', height: '60px'}}/>
+          <Avatar alt="Remy Sharp" src="/imgs/pasta.jpg" sx={{width: '60px', height: '60px'}}/>
+        </div>
         <p className='tw-text-[1rem] md:tw-text-[2rem]'>Don't know what to make for dinner?</p>
         <p>Tell us what's in your fridge!</p>
         <div className="button tw-pt-8">
@@ -104,8 +128,7 @@ function App() {
               <Typography>
                 <FormGroup color='grey'>
                   <div className="essentials tw-flex tw-flex-wrap opacity: '1'">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="salt and pepper" iconStyle={{fill: 'grey'}}/>
-                    
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "salt and pepper")}/>} label="salt and pepper" iconStyle={{fill: 'grey'}}/>
                     <FormControlLabel control={<Checkbox color="grey"/>} label="olive oil" />
                     <FormControlLabel control={<Checkbox color="grey"/>} label="vegetable oil" />
                     <FormControlLabel control={<Checkbox color="grey"/>} label="flour" />
@@ -276,9 +299,15 @@ function App() {
             </AccordionDetails>
           </Accordion>
         </div>
-        <div className="current md:tw-w-[30%] tw-border-2 tw-border-[#C4C1A4] tw-rounded-[10px] tw-h-[60vh]">
-
+        <div className="myfridge md:tw-w-[30%]">
+          <h3>My Fridge</h3>
+          <div className="current md:tw-w-[100%] tw-border-2 tw-border-[#C4C1A4] tw-rounded-[10px] tw-h-[60vh]">
+          {ingredientList && ingredientList.map(ingredient => (
+            <li key={ingredient}>{ingredient.text}</li>
+          ))}
+          </div>
         </div>
+        
       </div>
     </div>
 
