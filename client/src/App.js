@@ -25,6 +25,10 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
+import DeleteIcon from '@mui/icons-material/Delete';
+import TextField from '@mui/material/TextField';
+import Container from '@mui/material/Container';
+import Link from '@mui/material';
 
 
 function App() {
@@ -82,6 +86,12 @@ function App() {
     dispatch(addIngredient(name))
   }
 
+  function onClickDelete(label) {
+    dispatch(deleteIngredient(label))
+
+  }
+
+
   console.log(ingredientList)
 
   return (
@@ -113,35 +123,31 @@ function App() {
     <div className="instruction tw-bg-[url('../public/imgs/yellow.png')] tw-min-h-screen" id='fridge'>
       <h2 className='tw-text-center tw-pt-16'>What's in your fridge?</h2>
       <h3 className='tw-text-center tw-pb-8'>You can choose from our list of essential ingredients, or use the search bar to add ingredients!</h3>
-      <div className="tw-bg-top md:tw-flex md:tw-gap-[3%]">
-        <div className="searchbar md:tw-w-[30%]">
+      <div className="tw-bg-top md:tw-flex md:tw-gap-[3%] tw-pb-4">
+        <div className="searchbar md:tw-w-[30%] md:tw-pl-8">
+          <h3 className='tw-mb-4'>Search Ingredients</h3>
             <input
                 type="text"
                 placeholder="Search ingredients"
                 value={searchTerm}
                 onChange={handleSearchInputChange}
+                className='tw-border-b-2 tw-bg-transparent tw-border-black tw-w-full tw-outline-0'
               />
-              <ul>
+              <ul className='tw-bg-white'>
               {ingredients.map((ingredient) => (<>
-               
                   <ListItem>
-                    <button onClick={() => handleSearchClick(ingredient.name)}>
+                    <button onClick={() => handleSearchClick(ingredient.name)} className='tw-w-full tw-text-left'>
                       <ListItemText
                         primary={`${ingredient.name}`}
                         secondary= ''
                       />
-
                     </button>
-                   
-                  </ListItem>
-                
-                
-              </>
-                
+                  </ListItem></>
               ))}
             </ul>
         </div>
-        <div className='tw-w-[100%] md:tw-w-[30%] tw-flex tw-flex-col tw-gap-2 tw-items-center tw-justify-center'>
+        <div className='tw-w-[100%] md:tw-w-[30%] tw-flex tw-flex-col tw-gap-2 tw-items-center '>
+          <h3>Choose Ingredients</h3>
           <Accordion style={{ borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%' }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -155,11 +161,11 @@ function App() {
                 <FormGroup color='grey'>
                   <div className="essentials tw-flex tw-flex-wrap opacity: '1'">
                     <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "salt and pepper")}/>} label="salt and pepper" iconStyle={{fill: 'grey'}}/>
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="olive oil" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="vegetable oil" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="flour" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="unbleached all purpose flour" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="sugar" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "olive oil")}/>} label="olive oil" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "vegetable oil")}/>} label="vegetable oil" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "flour")}/>} label="flour" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "unbleached all purpose flour")}/>} label="unbleached all purpose flour" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "sugar")}/>} label="sugar" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -177,15 +183,15 @@ function App() {
               <Typography>
               <FormGroup>
                   <div className="essentials tw-flex tw-flex-wrap">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="chicken broth" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="chicken stock" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="beef broth" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="beef stock" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="canned tomato sauce" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="canned tomatoes" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="tomato paste" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="marinara sauce" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="canned tuna" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "chicken broth")}/>} label="chicken broth" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "chicken stock")}/>} label="chicken stock" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "beef broth")}/>} label="beef broth"/>
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "beef stock")}/>} label="beef stock" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "canned tomato sauce")}/>} label="canned tomato sauce" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "canned tomatoes")}/>} label="canned tomatoes" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "tomato paste")}/>} label="tomato paste" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "marinara sauce")}/>} label="marinara sauce" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "canned tuna")}/>} label="canned tuna" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -203,10 +209,10 @@ function App() {
               <Typography>
               <FormGroup>
                   <div className="essentials tw-flex tw-flex-wrap">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="pasta" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="rice" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="lentils" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="breadcrumbs" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "pasta")}/>} label="pasta" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "rice")}/>} label="rice" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "lentils")}/>} label="lentils" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "breadcrumbs")}/>} label="breadcrumbs" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -224,9 +230,9 @@ function App() {
               <Typography>
               <FormGroup>
                   <div className="essentials tw-flex tw-flex-wrap">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="potato" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="onion" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="garlic" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "potato")}/>} label="potato" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "onion")}/>} label="onion" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "garlic")}/>} label="garlic" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -244,10 +250,10 @@ function App() {
               <Typography>
               <FormGroup>
                   <div className="essentials tw-flex tw-flex-wrap">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="balsamic viengar" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="distilled white vinegar" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="soy sauce" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="hot sauce" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "balsamic vinegar")}/>} label="balsamic vinegar" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "distilled white vinegar")}/>} label="distilled white vinegar" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "soy sauce")}/>} label="soy sauce" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "hot sauce")}/>} label="hot sauce" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -265,15 +271,15 @@ function App() {
               <Typography>
               <FormGroup>
                   <div className="essentials tw-flex tw-flex-wrap">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="dried basil" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="red pepper flakes" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="curry powder" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="chili powder" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="garlic powder" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="onion powder" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="oregano" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="paprike" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="dried parsley" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "dried basil")}/>} label="dried basil" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "red pepper flakes")}/>} label="red pepper flakes" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "curry powder")}/>} label="curry powder" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "chili powder")}/>} label="chili powder" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "garlic powder")}/>} label="garlic powder" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "onion powder")}/>} label="onion powder" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "oregano")}/>} label="oregano" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "paprike")}/>} label="paprike" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "dried parsley")}/>} label="dried parsley" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -291,13 +297,13 @@ function App() {
               <Typography>
               <FormGroup>
                   <div className="essentials tw-flex tw-flex-wrap">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="egg" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="milk" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="butter" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="ketchup" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="mayonnaise" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="mustard" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="parmesan" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "egg")}/>} label="egg" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "milk")}/>} label="milk" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "butter")}/>} label="butter" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "ketchup")}/>} label="ketchup" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "mayonnaise")}/>} label="mayonnaise" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "mustard")}/>} label="mustard" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "parmesan")}/>} label="parmesan" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -315,10 +321,10 @@ function App() {
               <Typography>
               <FormGroup>
                   <div className="essentials tw-flex tw-flex-wrap">
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="hot dogs" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="real bacon pieces" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="beef" />
-                    <FormControlLabel control={<Checkbox color="grey"/>} label="chicken breast" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "hot dogs")}/>} label="hot dogs" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "real bacon pieces")}/>} label="real bacon pieces" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "beef")}/>} label="beef" />
+                    <FormControlLabel control={<Checkbox color="grey" onChange={(event) => onBoxClick(event, "chicken breast")}/>} label="chicken breast" />
                   </div>
                 </FormGroup>
               </Typography>
@@ -327,14 +333,42 @@ function App() {
         </div>
         <div className="myfridge md:tw-w-[30%]">
           <h3>My Fridge</h3>
-          <div className="current md:tw-w-[100%] tw-border-2 tw-border-[#C4C1A4] tw-rounded-[10px] tw-h-[60vh]">
-          {ingredientList && ingredientList.map(ingredient => (
-            <li key={ingredient}>{ingredient.text}</li>
-          ))}
+          <div className="current md:tw-w-[100%] tw-border-2 tw-border-[#C4C1A4] tw-rounded-[10px] tw-min-h-[60vh] tw-flex tw-flex-col tw-justify-between">
+            <div className="list md:tw-px-4 md:tw-py-4 md:tw-flex md:tw-flex-wrap md:tw-gap-1">
+            {ingredientList && ingredientList.map(ingredient => (<>
+            <Button variant="outlined" startIcon={<DeleteIcon />} sx={{height:'30px'}} color='black' onClick={() => onClickDelete(ingredient.text)}>
+              {ingredient.text}
+            </Button></>
+            ))}
+            </div>
+            <div className="submit md:tw-flex md:tw-justify-end tw-pb-2 tw-pr-2">
+              <a href="results"><Button variant="contained" color='orange'>SUBMIT</Button></a>
+            </div>
+
+           
+          
           </div>
         </div>
-        
       </div>
+    </div>
+    <div className="footer">
+      <Box
+        component="footer"
+        sx={{
+          py: 3,
+          px: 2,
+          mt: 'auto',
+          backgroundColor: '#9E9FA5'
+        }}
+      >
+        <Container maxWidth="sm">
+          <Typography variant="body1">
+          Copyright @Chloe Kim
+          </Typography>
+          
+        </Container>
+      </Box>
+
     </div>
 
     </ThemeProvider>
