@@ -14,21 +14,14 @@ import colortheme from './theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { Avatar } from '@mui/material';
-import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addIngredient, deleteIngredient } from './actions';
 import { useSelector } from 'react-redux';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TextField from '@mui/material/TextField';
-import Container from '@mui/material/Container';
-import Link from '@mui/material';
+import { Footer } from './components/Footer';
+import { Link } from 'react-router-dom';
 
 
 function App() {
@@ -72,7 +65,6 @@ function App() {
   const lg = useMediaQuery(sizetheme.breakpoints.up('xl'));
 
   const dispatch = useDispatch()
-  const inputRef = useRef(null);
 
   function onBoxClick(event, label) {
     if (event.target.checked) {
@@ -342,7 +334,7 @@ function App() {
             ))}
             </div>
             <div className="submit md:tw-flex md:tw-justify-end tw-pb-2 tw-pr-2">
-              <a href="results"><Button variant="contained" color='orange'>SUBMIT</Button></a>
+              <Link to="/results"><Button variant="contained" color='orange'>SUBMIT</Button></Link>
             </div>
 
            
@@ -351,26 +343,7 @@ function App() {
         </div>
       </div>
     </div>
-    <div className="footer">
-      <Box
-        component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: '#9E9FA5'
-        }}
-      >
-        <Container maxWidth="sm">
-          <Typography variant="body1">
-          Copyright @Chloe Kim
-          </Typography>
-          
-        </Container>
-      </Box>
-
-    </div>
-
+    <Footer />
     </ThemeProvider>
    
    
