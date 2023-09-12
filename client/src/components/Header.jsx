@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from '@mui/material'
 import { Button } from '@mui/material'
 import { createTheme } from '@mui/material'
 import { ThemeProvider } from '@emotion/react'
@@ -25,7 +24,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import colortheme from '../theme/theme'
-
+import { Outlet } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
 
 const drawerWidth = 240;
 
@@ -76,6 +77,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export const Header = () => {
 
+  const isLoggedIn = useSelector((state) => state.authReducer.logged)
+
   const mtheme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -104,13 +107,13 @@ export const Header = () => {
         </div>
         <div className="right tw-flex">
           <div className="s2 tw-flex tw-items-center tw-gap-4">
-          <Link href="/" underline="none" color="grey[900]">Saved Recipes</Link>
-          <Link href="/" underline="none" color="grey[900]">My Fridge</Link>
+          <Link to={isLoggedIn ? "/saved" : "/login"} underline="none" color="grey[900]"><button>Saved Recipes</button></Link>
+          {/*<Link to="/myFridge" underline="none" color="grey[900]"><button>fridge</button></Link>*/}
           </div>
           <div className="logsign tw-flex tw-items-center tw-gap-2 tw-ml-8 tw-mr-16">
           <ThemeProvider theme={colortheme}>
-            <Button variant="outlined" color='black'>Log In</Button>
-            <Button variant="contained" color='black'><LoginIcon/> <p className='tw-ml-2'>Sign Up</p></Button>
+            <Link to="/login"><Button variant="outlined" color='black'>Log In</Button></Link>
+            <Link to="/signUp"><Button variant="contained" color='black'><LoginIcon/> <p className='tw-ml-2'>Sign Up</p></Button></Link>
           </ThemeProvider>
           </div>
         </div>   
@@ -179,7 +182,8 @@ export const Header = () => {
           </List>
           </Drawer>
         </ThemeProvider></>}
-    
+        <Outlet />
+        
     </>
       
          

@@ -27,7 +27,8 @@ import { Link } from 'react-router-dom';
 function App() {
   const [ingredients, setIngredients] = useState([])
   const [searchTerm, setSearchTerm] = useState([])
-  const ingredientList = useSelector((state) => state.ingredientsList)
+  const ingredientList = useSelector((state) => state.ingredientReducer.ingredientsList);
+
 
 
   const handleSearchInputChange = async (event) => {
@@ -88,7 +89,6 @@ function App() {
 
   return (
     <>
-    <Header />
     <ThemeProvider theme={colortheme}>
     <div className="main tw-h-[calc(100vh)] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-no-repeat tw-scroll-smooth md:tw-bg-bottom">
       <div className="text tw-w-[100%] tw-h-[30%] tw-flex tw-flex-col tw-justify-end tw-items-center">

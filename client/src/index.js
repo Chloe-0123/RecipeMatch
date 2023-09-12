@@ -8,11 +8,25 @@ import { RecipeResults } from './views/recipeResults'
 import { Test } from './views/test';
 import { Provider } from "react-redux";
 import store from "./store";
+import { SignUp } from './views/signUp';
+import { Header } from './components/Header';
+import { MyFridge } from './views/myFridge'
+import { Saved } from './views/Saved'
+import { Login } from './views/login'
+
 
 const router = createBrowserRouter([
-  { path: "/", element: <App />},
-  { path: "/results", element: <RecipeResults />},
-  { path: "/test", element: <Test />}
+  { element: <Header />,
+    children: [
+      { path: "/", element: <App />},
+      { path: "/results", element: <RecipeResults />},
+      { path: "/test", element: <Test />},
+      { path: "/signUp", element: <SignUp />},
+      { path: "/saved", element: <Saved />},
+      { path: "/myFridge", element: <MyFridge />},
+      { path: "/login", element: <Login />}
+    ]}
+  
 ])
 
 
