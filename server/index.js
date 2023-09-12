@@ -1,6 +1,13 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const cors = require('cors');
+const logger = require("morgan");
+const methodOverride = require("method-override");
+const session = require("express-session");
+const flash = require("express-flash");
+const MongoStore = require("connect-mongo");
+const passport = require("passport");
+const mainroutes = require('./routes/main')
 
 
 
@@ -8,6 +15,31 @@ require('dotenv').config()
 const PORT = process.env.PORT || 3001;
 const axios = require('axios')
 const app = express();
+
+require("./config/passport")(passport);
+
+// Body Parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Logging
+app.use(logger("dev"));
+
+// Use forms for put / delete
+app.use(methodOverride("_method"));
+
+// Setup Sessions - stored in MongoDB
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
+  })
+);
+
+// Use flash messages for errors, info, ect...
+app.use(flash());
 
 const connectDB = async () => {
   try {
@@ -30,6 +62,13 @@ connectDB().then(() => {
       console.log("listening for requests");
   })
 })
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/signUp', mainroutes)
+
 
 app.get('/api/recipes', async (req, res) => {
     try {
@@ -60,7 +99,3 @@ app.get('/api/ingredients', async (req, res) => {
         res.status(500).json({ message: 'Server error while loading autocomplete ingredients' });
   }
 })
-
-/*app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});*/
