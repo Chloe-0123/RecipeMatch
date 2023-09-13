@@ -1,9 +1,10 @@
 import { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
 import axios from "axios";
+import { axiosInstance } from "../../axios";
 
 export const usePostUserLogin = async (url, body) => {
     try {
-        const response = await axios.post(url, body);
+        const response = await axiosInstance.post(url, body);
         console.log(response.data)
         console.log("response status is: ", response.status);
         return response;

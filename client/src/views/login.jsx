@@ -9,6 +9,7 @@ export const Login = () => {
 
   const [formData, setFormData] = useState({
     username: "",
+    email: "",
     password: ""
   })
 
@@ -35,6 +36,16 @@ export const Login = () => {
       <h1 className="tw-text-center tw-pt-[4rem] tw-text-[4rem]">Log In</h1>
       <Container>
         <form onSubmit={handleSubmit} className='tw-flex tw-flex-col tw-items-center tw-pt-[4rem]'>
+        <TextField
+          label="Email"
+          variant="outlined"
+          margin="normal"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          color="black"
+          sx={{width: '285px'}}
+        />
         <TextField
           label="Username"
           variant="outlined"
