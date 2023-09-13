@@ -66,54 +66,36 @@ res.render("signup", {
 };
 
 exports.postSignup = (req, res, next) => {
-    console.log('yes')
-    const validationErrors = [];
-    if (!validator.isEmail(req.body.email))
-        validationErrors.push({ msg: "Please enter a valid email address." });
-    if (!validator.isLength(req.body.password, { min: 8 }))
-        validationErrors.push({
-        msg: "Password must be at least 8 characters long",
-        });
-    if (req.body.password !== req.body.confirmPassword)
-        validationErrors.push({ msg: "Passwords do not match" });
-
-    if (validationErrors.length) {
-        req.flash("errors", validationErrors);
-        return res.redirect("../signup");
-    }
-    req.body.email = validator.normalizeEmail(req.body.email, {
-        gmail_remove_dots: false,
+    const user = new User({
+        userName: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
     });
 
-const user = new User({
-    userName: req.body.userName,
-    email: req.body.email,
-    password: req.body.password,
-});
-
-User.findOne({ $or: [{ email: req.body.email }, { userName: req.body.userName }] })
-.then(existingUser => {
-    if (existingUser) {
-    req.flash("errors", {
-        msg: "Account with that email address or username already exists.",
-    });
-    return res.redirect("../signup");
-    }
-    user.save()
-    .then(() => {
-        req.logIn(user, (err) => {
-        if (err) {
+    User.findOne({ userName: req.body.username })
+        .then(existingUser => {
+            if (existingUser) {
+                req.flash("errors", {
+                    msg: "Account with that username already exists.",
+                });
+                return res.redirect("http://localhost:3000/");
+            }
+            user.save()
+                .then(() => {
+                    req.logIn(user, (err) => {
+                        if (err) {
+                            return next(err);
+                        }
+                        // Successfully signed up the user
+                        // Redirect to the desired page
+                        return res.redirect("http://localhost:3000/");
+                    });
+                })
+                .catch(err => {
+                    return next(err);
+                });
+        })
+        .catch(err => {
             return next(err);
-        }
-        res.redirect("/");
         });
-    })
-    .catch(err => {
-        return next(err);
-    });
-})
-.catch(err => {
-    return next(err);
-});
-
 };

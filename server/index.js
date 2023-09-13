@@ -15,6 +15,7 @@ require('dotenv').config()
 const PORT = process.env.PORT || 3001;
 const axios = require('axios')
 const app = express();
+app.use(cors());
 
 require("./config/passport")(passport);
 
@@ -67,7 +68,7 @@ connectDB().then(() => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/signUp', mainroutes)
+app.use('/', mainroutes)
 
 
 app.get('/api/recipes', async (req, res) => {
