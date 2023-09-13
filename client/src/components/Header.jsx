@@ -85,7 +85,6 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.authReducer.userEmail)
-  const isLoggedIn = useSelector((state) => state.authReducer.logged)
 
   const mtheme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -129,7 +128,7 @@ export const Header = () => {
         </div>
         <div className="right tw-flex">
           <div className="s2 tw-flex tw-items-center tw-gap-4">
-          <Link to={isLoggedIn ? "/saved" : "/login"} underline="none" color="grey[900]"><button>Saved Recipes</button></Link>
+          <Link to={userInfo !== "" ? "/saved" : "/login"} underline="none" color="grey[900]"><button>Saved Recipes</button></Link>
           {/*<Link to="/myFridge" underline="none" color="grey[900]"><button>fridge</button></Link>*/}
           </div>
           <div className="logsign tw-flex tw-items-center tw-gap-2 tw-ml-8 tw-mr-16">
