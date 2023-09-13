@@ -9,7 +9,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
-import { Header } from './components/Header';
 import colortheme from './theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { useMediaQuery, useTheme } from '@mui/material';
@@ -28,8 +27,6 @@ function App() {
   const [ingredients, setIngredients] = useState([])
   const [searchTerm, setSearchTerm] = useState([])
   const ingredientList = useSelector((state) => state.ingredientReducer.ingredientsList);
-
-
 
   const handleSearchInputChange = async (event) => {
     const input = event.target.value;

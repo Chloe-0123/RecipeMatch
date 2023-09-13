@@ -1,11 +1,24 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react'
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import colortheme from '../theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { Button } from '@mui/material';
+import { usePostUserLogin } from '../hooks/user/userLogin';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { LOGIN } from '../actions';
+
 
 export const Login = () => {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const url = "/login"
+  const [isError, setIsError] = useState(false);
+
+  
 
   const [formData, setFormData] = useState({
     username: "",
@@ -24,10 +37,28 @@ export const Login = () => {
 
   console.log(formData)
 
-  function handleSubmit() {
-    
-    console.log('SUBMITTED')
-  }
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    console.log('submitting');
+    try {
+        const result = await usePostUserLogin(url, formData);
+        console.log('result', result);
+        if (result === null || result.status !== 200) {
+            setIsError(true);
+        }
+        else {
+            dispatch(LOGIN(formData.email))
+            navigate("/")
+        }
+
+    }
+    catch (error) {
+        setIsError(true);
+        console.log("ERROR: ", error)
+    }
+
+}
+
   return (
   
     <>
@@ -35,7 +66,7 @@ export const Login = () => {
     <div className="loginform tw-h-screen tw-bg-[url('../public/imgs/page1.png')] tw-bg-center">
       <h1 className="tw-text-center tw-pt-[4rem] tw-text-[4rem]">Log In</h1>
       <Container>
-        <form onSubmit={handleSubmit} className='tw-flex tw-flex-col tw-items-center tw-pt-[4rem]'>
+        <form onSubmit={(event) => handleSubmit(event)} className='tw-flex tw-flex-col tw-items-center tw-pt-[4rem]'>
         <TextField
           label="Email"
           variant="outlined"

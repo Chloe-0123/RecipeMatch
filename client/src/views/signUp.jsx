@@ -37,7 +37,7 @@ export const SignUp = () => {
             setIsError(true);
         }
         else {
-            navigate("/")
+            navigate("/login")
         }
 
     }

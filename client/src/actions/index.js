@@ -31,3 +31,15 @@ export const deleteFromSaved = (title) => {
     }
 }
 
+export const LOGIN = (userEmail) => {
+    return {
+        type: 'LOGIN',
+        payload: userEmail
+    }
+}
+
+export const LOGOUT = () => {
+    return {
+        type: 'LOGOUT'
+    }
+}

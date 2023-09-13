@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import { Button } from '@mui/material'
 import { createTheme } from '@mui/material'
@@ -26,7 +27,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import colortheme from '../theme/theme'
 import { Outlet } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useUserLogout } from '../hooks/user/userLogout';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { LOGOUT } from '../actions';
 
 const drawerWidth = 240;
 
@@ -77,6 +82,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export const Header = () => {
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const userInfo = useSelector((state) => state.authReducer.userEmail)
   const isLoggedIn = useSelector((state) => state.authReducer.logged)
 
   const mtheme = useTheme();
@@ -97,6 +105,20 @@ export const Header = () => {
     const md = useMediaQuery(sizetheme.breakpoints.between('md', 'lg'));
     const lg = useMediaQuery(sizetheme.breakpoints.up('xl'));
 
+  const handleLogout = async () => {
+    try {
+      const response = await useUserLogout('/logout')
+      console.log('R:', response)
+      if (response.status === 200) {
+        dispatch(LOGOUT())
+        navigate('/')
+        alert('SUCCESFULLY LOGGED OUT!')
+      }
+      
+    } catch (error) {
+      console.log("ERROR: ", error);
+    }
+  }
   
   return (
     <>
@@ -112,7 +134,7 @@ export const Header = () => {
           </div>
           <div className="logsign tw-flex tw-items-center tw-gap-2 tw-ml-8 tw-mr-16">
           <ThemeProvider theme={colortheme}>
-            <Link to="/login"><Button variant="outlined" color='black'>Log In</Button></Link>
+            {userInfo === "" ? <Link to="/login"><Button variant="outlined" color='black'>Log In</Button></Link> : <Button variant="outlined" color='black' onClick={handleLogout}>Log Out</Button>}
             <Link to="/signUp"><Button variant="contained" color='black'><LoginIcon/> <p className='tw-ml-2'>Sign Up</p></Button></Link>
           </ThemeProvider>
           </div>
