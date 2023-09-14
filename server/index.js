@@ -8,6 +8,7 @@ const flash = require("express-flash");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const mainroutes = require('./routes/main')
+const path = require('path');
 
 
 
@@ -39,7 +40,12 @@ app.use(
   })
 );
 
-// Use flash messages for errors, info, ect...
+//serving the frontend
+const publicPath = path.join(__dirname, '../client/public');
+app.use(express.static(publicPath));
+
+
+// Use flash messages for errors, info, etc
 app.use(flash());
 
 const connectDB = async () => {
@@ -70,11 +76,11 @@ app.use(passport.session());
 
 app.use('/', mainroutes)
 
-
+// get recipes by ingredients
 app.get('/api/recipes', async (req, res) => {
     try {
         const { ingredients } = req.query;
-        const apiKey = '1978a1bb91a74a599f875577b2e96804';
+        const apiKey = process.env.API_KEY
         const apiUrl = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&apiKey=${apiKey}`;
         const response = await axios.get(apiUrl);
         res.json(response.data);
@@ -84,13 +90,13 @@ app.get('/api/recipes', async (req, res) => {
       }
 });
 
-
+// get ingredients with autocomplete (search bar)
 app.get('/api/ingredients', async (req, res) => {
   try {
     console.log('went thru')
     const { ingredient } = req.query
     console.log(ingredient)
-    const apiKey = '1978a1bb91a74a599f875577b2e96804';
+    const apiKey = process.env.API_KEY
     const apiUrl = `https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${apiKey}&query=${ingredient}&number=5`
     const response = await axios.get(apiUrl)
     res.json(response.data)
@@ -100,3 +106,21 @@ app.get('/api/ingredients', async (req, res) => {
         res.status(500).json({ message: 'Server error while loading autocomplete ingredients' });
   }
 })
+
+// get recipe info by id
+app.get('/api/recipeInfo', async (req, res) => {
+  try {
+    console.log('FIND INFO')
+    const { id } = req.query
+    console.log(id)
+    const apiKey = process.env.API_KEY
+    const apiUrl = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`
+    const response = await axios.get(apiUrl)
+    res.json(response.data)
+    console.log(response.data)
+  } catch (error) {
+    console.error(error);
+        res.status(500).json({ message: 'Server error while loading autocomplete ingredients' });
+  }
+})
+

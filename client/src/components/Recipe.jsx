@@ -1,10 +1,48 @@
-import React from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState } from 'react'
 import Button from '@mui/material/Button';
 import colortheme from '../theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSaveRecipe } from '../hooks/recipe/saveRecipe';
 
 export const Recipe = ({ recipe }) => {
+
+  const [error, setError] = useState(false)
+
+  const navigate = useNavigate()
+  const userId = useSelector((state) => state.authReducer.userEmail[0])
+
+
+  const url = "/recipe"
+
+  const handleSave = async (id) => {
+    if (userId === "") {
+      navigate('/login')
+    } else {
+
+      const info = { userEmail: userId , recipeId: id }
+
+      try {
+        const result = await useSaveRecipe(url, info)
+        console.log('result', result);
+        if (result === null || result.status !== 201) {
+            setError(true);
+        }
+        else {
+            alert('Successfully Saved!')
+        }
+      } catch (error) {
+        
+      }
+
+    }
+  }
+
+
   return (
     <>
     <ThemeProvider theme={colortheme}>
@@ -14,7 +52,7 @@ export const Recipe = ({ recipe }) => {
                     <h3 className='tw-text-[1.2rem] md:tw-text-[1.6rem]'>{recipe.title}</h3>
                 </Link>
                 <p className='tw-text-[0.8rem] tw-mb-[1rem] md:tw-text-[1rem]'><strong>Missing Ingredients: </strong>{recipe.missedIngredients.length !== 0 ? ''+recipe.missedIngredients.map((ing) => ing.name): 'None'}</p>
-                <Button sx={{boxShadow: 'none'}} variant="contained" color='orange' className='tw-w-[100px] tw-h-[20px] tw-text-[10px] tw-rounded-[8px] md:tw-h-[30px]'>Save</Button>
+                <Button sx={{boxShadow: 'none'}} variant="contained" color='orange' className='tw-w-[100px] tw-h-[20px] tw-text-[10px] tw-rounded-[8px] md:tw-h-[30px]' onClick={() => handleSave(recipe.id)}>Save</Button>
             </div>
             <img src={recipe.image} alt="" className='tw-w-[100px] tw-h-[100px] md:tw-w-[150px] md:tw-h-[150px]'/>
         </div>
