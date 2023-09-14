@@ -13,6 +13,7 @@ import { Header } from './components/Header';
 import { MyFridge } from './views/myFridge'
 import { Saved } from './views/Saved'
 import { Login } from './views/login'
+import { RecipePage } from './views/recipePage';
 
 
 const router = createBrowserRouter([
@@ -24,7 +25,8 @@ const router = createBrowserRouter([
       { path: "/signUp", element: <SignUp />},
       { path: "/saved", element: <Saved />},
       { path: "/myFridge", element: <MyFridge />},
-      { path: "/login", element: <Login />}
+      { path: "/login", element: <Login />},
+      { path: "/recipePage/:id", element: <RecipePage />}
     ]}
   
 ])
