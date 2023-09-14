@@ -6,7 +6,9 @@ exports.saveRecipe = async (req, res) => {
 
     const newRecipe = new Recipe({
         userEmail: req.body.userEmail,
-        recipeId: req.body.recipeId
+        recipeId: req.body.recipeId,
+        recipeTitle: req.body.recipeTitle,
+        recipeImage: req.body.recipeImage
     })
 
     try {
