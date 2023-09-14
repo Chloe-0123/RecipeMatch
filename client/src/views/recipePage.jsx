@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
@@ -5,13 +6,19 @@ import { Footer } from '../components/Footer';
 import { Button } from '@mui/material';
 import colortheme from '../theme/theme';
 import { ThemeProvider } from '@emotion/react';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useNavigate } from 'react-router-dom';
+import { useSaveRecipe } from '../hooks/recipe/saveRecipe';
 
 export const RecipePage = () => {
     
+    const userId = useSelector((state) => state.authReducer.userEmail[0])
+    const navigate = useNavigate
     const { id } = useParams()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
     const [info, setInfo] = useState([])
+    const url = "/recipe"
 
     useEffect(() => {
         async function fetchData() {
@@ -34,7 +41,28 @@ export const RecipePage = () => {
         fetchData();
       }, []);
 
-
+      const handleSave = async (title, image) => {
+        if (userId === "") {
+          navigate('/login')
+        } else {
+    
+          const info = { userEmail: userId , recipeId: id, recipeTitle: title, recipeImage: image }
+    
+          try {
+            const result = await useSaveRecipe(url, info)
+            console.log('result', result);
+            if (result === null || result.status !== 201) {
+                setError(true);
+            }
+            else {
+                alert('Successfully Saved!')
+            }
+          } catch (error) {
+            
+          }
+    
+        }
+      }
     return (<>
         <ThemeProvider theme={colortheme}>
             {error && <div>Error</div>}
@@ -51,11 +79,11 @@ export const RecipePage = () => {
                         {info.extendedIngredients.map((ing) => <li>{ing.name}</li>)}
                     </ol>
                 </div>
-                <div className="instructions tw-pt-[1.5rem] ">
-                    <p>{info.instructions}</p>
+                <div className="instructions tw-pt-[1.5rem] tw-self-start">
+                    <p dangerouslySetInnerHTML={{ __html: info.instructions}}></p>
                 </div>
                 <div className="savebutton tw-pt-[1.5rem] tw-pb-[2rem] tw-w-screen tw-flex tw-justify-center">
-                    <Button sx={{boxShadow: 'none'}} variant="contained" color='orange' className='tw-w-[100px] tw-h-[20px] tw-text-[10px] tw-rounded-[8px] md:tw-h-[50px] md:tw-w-[150px] '>Save Recipe</Button>
+                    <Button sx={{boxShadow: 'none'}} variant="contained" color='orange' className='tw-w-[100px] tw-h-[20px] tw-text-[10px] tw-rounded-[8px] md:tw-h-[50px] md:tw-w-[150px]' onClick={() => handleSave(info.title, info.image)}>Save Recipe</Button>
 
                 </div>
                

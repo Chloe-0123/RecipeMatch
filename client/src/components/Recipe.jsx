@@ -24,7 +24,7 @@ export const Recipe = ({ recipe }) => {
       navigate('/login')
     } else {
 
-      const info = { userEmail: userId , recipeId: id }
+      const info = { userEmail: userId , recipeId: id, recipeTitle: recipe.title, recipeImage: recipe.image }
 
       try {
         const result = await useSaveRecipe(url, info)
@@ -61,5 +61,28 @@ export const Recipe = ({ recipe }) => {
     </ThemeProvider>
     </>
     
+  )
+}
+
+
+export const SavedRecipe = ({ recipe }) => {
+  return (
+    <>
+     <ThemeProvider theme={colortheme}>
+     <Link to={`/recipePage/${recipe.recipeId}`} className='md:tw-w-full'>
+        <div className="container tw-flex tw-p-[1rem] tw-justify-between tw-border-b-[1px] tw-border-slate-500 tw-border-dashed md:tw-flex  md:tw-justify-between md:tw-border-none md:tw-w-full md:tw-gap-[2rem] md:tw-bg-[#C4C1A4]/30">
+           
+            
+                <h3 className='tw-text-[1rem] md:tw-text-[1.5rem]'>{recipe.recipeTitle}</h3>
+            
+            
+            <img src={recipe.recipeImage} alt="" className='tw-w-[100px] tw-h-[100px] md:tw-w-[150px] md:tw-h-[150px] md:tw-self-center'/>
+        </div>
+        </Link>
+    
+      </ThemeProvider>
+    </>
+
+
   )
 }
