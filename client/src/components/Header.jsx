@@ -140,7 +140,7 @@ export const Header = () => {
         <ThemeProvider theme={colortheme}>
           <CssBaseline />
           <AppBar position="fixed" open={open} sx={{ boxShadow: 0 }}>
-            <Toolbar sx={{ backgroundColor: '#FFC6AC !important'}}>
+            <Toolbar sx={{ backgroundColor: 'white !important'}}>
               <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div" color='white'>
                 <Link href="/"><img src="imgs/cover.png" alt="RecipeMatch" className='tw-h-[60px]'/></Link>
               </Typography>
