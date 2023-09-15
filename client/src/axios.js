@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3001', // Update the port if needed
+    baseURL: 'https://recipe-match.onrender.com', // Update the port if needed
   });
   
