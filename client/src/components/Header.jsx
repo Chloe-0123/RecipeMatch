@@ -128,12 +128,12 @@ export const Header = () => {
         </div>
         <div className="right tw-flex">
           <div className="s2 tw-flex tw-items-center tw-gap-4">
-          <Link to={userInfo !== "" ? "/saved" : "/login"} underline="none" color="grey[900]"><button>Saved Recipes</button></Link>
+          <Link to={userInfo !== "" ? "/saved" : "/login"} underline="none" color="grey[900]"><button className=''>Saved Recipes</button></Link>
           {/*<Link to="/myFridge" underline="none" color="grey[900]"><button>fridge</button></Link>*/}
           </div>
           <div className="logsign tw-flex tw-items-center tw-gap-2 tw-ml-8 tw-mr-16">
           <ThemeProvider theme={colortheme}>
-            {userInfo === "" ? <Link to="/login"><Button variant="outlined" color='black'>Log In</Button></Link> : <Button variant="outlined" color='black' onClick={handleLogout}>Log Out</Button>}
+            {userInfo === "" ? <Link to="/login"><Button variant="outlined" color='black' className='josefin'>Log In</Button></Link> : <Button variant="outlined" color='black' onClick={handleLogout}>Log Out</Button>}
             <Link to="/signUp"><Button variant="contained" color='black'><LoginIcon/> <p className='tw-ml-2'>Sign Up</p></Button></Link>
           </ThemeProvider>
           </div>

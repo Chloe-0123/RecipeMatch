@@ -12,7 +12,7 @@ import { useSaveRecipe } from '../hooks/recipe/saveRecipe';
 
 export const RecipePage = () => {
     
-    const userId = useSelector((state) => state.authReducer.userEmail[0])
+    const userId = useSelector((state) => state.authReducer.userEmail)
     const navigate = useNavigate
     const { id } = useParams()
     const [loading, setLoading] = useState(false)
@@ -46,7 +46,7 @@ export const RecipePage = () => {
           navigate('/login')
         } else {
     
-          const info = { userEmail: userId , recipeId: id, recipeTitle: title, recipeImage: image }
+          const info = { userEmail: userId[0], recipeId: id, recipeTitle: title, recipeImage: image }
     
           try {
             const result = await useSaveRecipe(url, info)

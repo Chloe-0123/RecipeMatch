@@ -38,7 +38,7 @@ export const RecipeResults = () =>  {
     return (
       <>
       <div className="tw-w-screen tw-bg-[url('../public/imgs/yellow.png')]">
-        <h1 className='tw-w-screen tw-pt-[4rem] tw-text-[2rem] tw-text-center'>Recipes</h1>
+        <h1 className='mont tw-w-screen tw-pt-[4rem] tw-text-[2rem] tw-text-center'>Recipes</h1>
         <div className="">
             <p>{loading ?  "Loading..." : ''}</p>
             {recipes.length !== 0? recipes.map((recipe) => <Recipe recipe={recipe}/>) : <h1>NO RECIPES</h1>}

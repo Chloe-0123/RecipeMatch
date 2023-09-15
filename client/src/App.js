@@ -87,10 +87,11 @@ function App() {
   return (
     <>
     <ThemeProvider theme={colortheme}>
-    <div className="main tw-h-[calc(100vh)] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-no-repeat tw-scroll-smooth md:tw-bg-bottom">
+  
+    <div className="main tw-min-h-screen tw-pt-[6rem] md:tw-pt-[4rem] tw-bg-[url('../public/imgs/yellow.png')] md:tw-bg-auto md:tw-mt-0 md:tw-bg-[url('../public/imgs/page1-1.jpg')]  md:tw-bg-no-repeat tw-scroll-smooth md:tw-bg-bottom md:tw-bg-cover lg:tw-bg-auto">
       <div className="text tw-w-[100%] tw-h-[30%] tw-flex tw-flex-col tw-justify-end tw-items-center">
-        <p className='tw-text-[1rem] sm:tw-text-[1.5rem]'>Find your recipes with</p>
-        <p className='tw-text-[2rem] sm:tw-text-[4rem]'>RecipeMatch</p>
+        <p className=' mont tw-text-[1.2rem] sm:tw-text-[1.5rem] md:tw-text-[1.6rem]'>Find your recipes with</p>
+        <p className=' tw-text-[2.5rem] sm:tw-text-[4rem] md:tw-text-[4.3rem]'>RecipeMatch</p>
       </div>
       <div className="desc tw-left-[32%] tw-flex tw-flex-col tw-justify-center tw-items-center tw-pt-[15rem]">
         <div className="foodpic tw-flex md:tw-gap-4 tw-flex-wrap tw-w-[100%] tw-justify-center md:tw-pb-8">
@@ -100,8 +101,8 @@ function App() {
           <Avatar alt="Remy Sharp" src="/imgs/salad.jpg" sx={{width: '60px', height: '60px'}}/>
           <Avatar alt="Remy Sharp" src="/imgs/pasta.jpg" sx={{width: '60px', height: '60px'}}/>
         </div>
-        <p className='tw-text-[1rem] md:tw-text-[2rem]'>Don't know what to make for dinner?</p>
-        <p>Tell us what's in your fridge!</p>
+        <p className='mont tw-text-[1.2rem] md:tw-text-[1.5rem] tw-mt-4 tw-text-center'>Don't know what to make for dinner?</p>
+        <p className='mont tw-text-[1.4rem]'>Tell us what's in your fridge!</p>
         <div className="button tw-pt-8">
           {!sm ? <Button variant="contained" color='black' onClick={handleScroll}><p>Find my recipes</p></Button> : <Button variant="contained" color='grey' onClick={handleScroll}>Find my recipes</Button>}
         </div>
@@ -109,12 +110,12 @@ function App() {
       </div>
 
     </div>
-    <div className="instruction tw-bg-[url('../public/imgs/yellow.png')] tw-min-h-screen" id='fridge'>
-      <h2 className='tw-text-center tw-pt-16'>What's in your fridge?</h2>
-      <h3 className='tw-text-center tw-pb-8'>You can choose from our list of essential ingredients, or use the search bar to add ingredients!</h3>
+    <div className="instruction tw-bg-[url('../public/imgs/yellow.png')] tw-min-h-screen tw-py-8 tw-px-2" id='fridge'>
+      <h2 className='mont tw-text-center tw-pt-16 tw-text-[1.5rem] md:tw-text-[2rem] tw-font-semibold'>What's in your fridge?</h2>
+      <h3 className='mont tw-text-center tw-pb-8 md:tw-text-[1.3rem]'>You can choose from our list of essential ingredients, or use the search bar to add ingredients!</h3>
       <div className="tw-bg-top md:tw-flex md:tw-gap-[3%] tw-pb-4">
         <div className="searchbar md:tw-w-[30%] md:tw-pl-8">
-          <h3 className='tw-mb-4'>Search Ingredients</h3>
+          <h3 className='tw-mb-4 md:tw-text-[1.3rem]'>Search Ingredients</h3>
             <input
                 type="text"
                 placeholder="Search ingredients"
@@ -136,7 +137,7 @@ function App() {
             </ul>
         </div>
         <div className='tw-w-[100%] md:tw-w-[30%] tw-flex tw-flex-col tw-gap-2 tw-items-center '>
-          <h3>Choose Ingredients</h3>
+          <h3 className='tw-self-start md:tw-text-[1.3rem]'>Choose Ingredients</h3>
           <Accordion style={{ borderRadius: '10px', opacity: '0.8', backgroundColor: '#FFC6AC', width: '100%' }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -321,7 +322,7 @@ function App() {
           </Accordion>
         </div>
         <div className="myfridge md:tw-w-[30%]">
-          <h3>My Fridge</h3>
+          <h3 className='md:tw-text-[1.3rem]'>My Fridge</h3>
           <div className="current md:tw-w-[100%] tw-border-2 tw-border-[#C4C1A4] tw-rounded-[10px] tw-min-h-[60vh] tw-flex tw-flex-col tw-justify-between">
             <div className="list md:tw-px-4 md:tw-py-4 md:tw-flex md:tw-flex-wrap md:tw-gap-1">
             {ingredientList && ingredientList.map(ingredient => (<>
