@@ -32,27 +32,12 @@ import { useUserLogout } from '../hooks/user/userLogout';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LOGOUT } from '../actions';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import LogoutIcon from '@mui/icons-material/Logout';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginRight: -drawerWidth,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginRight: 0,
-    }),
-  }),
-);
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -86,6 +71,8 @@ export const Header = () => {
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.authReducer.userEmail)
 
+
+
   const mtheme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -118,6 +105,16 @@ export const Header = () => {
       console.log("ERROR: ", error);
     }
   }
+
+  let logInfo
+  let savedInfo
+  if (userInfo !== "") {
+    logInfo = 'Log Out'
+    savedInfo = '/saved'
+  } else {
+    logInfo = 'Log In'
+    savedInfo = '/login'
+  }
   
   return (
     <>
@@ -143,7 +140,7 @@ export const Header = () => {
         <ThemeProvider theme={colortheme}>
           <CssBaseline />
           <AppBar position="fixed" open={open} sx={{ boxShadow: 0 }}>
-            <Toolbar sx={{ backgroundColor: 'white !important'}}>
+            <Toolbar sx={{ backgroundColor: '#FFC6AC !important'}}>
               <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div" color='white'>
                 <Link href="/"><img src="imgs/cover.png" alt="RecipeMatch" className='tw-h-[60px]'/></Link>
               </Typography>
@@ -177,30 +174,21 @@ export const Header = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            {[logInfo, 'Sign Up', 'Saved Recipes'].map((text) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
+                <Link to={text === "Log In" || text === "Log Out" ? "/login" : text === "Sign Up" ? "/signUp" : savedInfo }>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      {text === "Log In" ? <LoginIcon />: text === "Log Out" ? <LogoutIcon /> : text === "Sign Up" ? <HowToRegIcon /> : <SaveAltIcon /> }
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </Link>
               </ListItem>
             ))}
           </List>
           <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          
           </Drawer>
         </ThemeProvider></>}
         <Outlet />

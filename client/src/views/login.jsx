@@ -45,6 +45,7 @@ export const Login = () => {
         console.log('result', result);
         if (result === null || result.status !== 200) {
             setIsError(true);
+            alert('CREDENTIAL ERROR: wrong credentials')
         }
         else {
             dispatch(LOGIN(formData.email))
