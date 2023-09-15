@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { applyMiddleware } from '@reduxjs/toolkit';
+import { applyMiddleware , compose } from '@reduxjs/toolkit';
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { combineReducers } from 'redux'; // Import combineReducers
@@ -14,8 +14,10 @@ const rootReducer = combineReducers({
   authReducer,
 });
 
+const composeEnhancers = process.env.REACT_APP_NODE_ENV === 'development' ? composeWithDevTools : compose;
+
 const store = configureStore({
   reducer: rootReducer, 
-}, composeWithDevTools(applyMiddleware(thunk)));
+}, composeEnhancers(applyMiddleware(thunk)));
 
 export default store;
