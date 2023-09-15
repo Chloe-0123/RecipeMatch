@@ -9,10 +9,10 @@ const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const mainroutes = require('./routes/main')
 const path = require('path');
+const dotenv =  require('dotenv')
 
 
-
-require('dotenv').config()
+dotenv.config({path: path.resolve(__dirname, 'config/.env')})
 const PORT = process.env.PORT || 3001;
 const axios = require('axios')
 const app = express();
