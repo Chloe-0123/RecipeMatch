@@ -19,12 +19,13 @@ export const RecipeResults = () =>  {
       async function fetchData() {
         try {
           setLoading(true)
-          const response = await axiosInstance.get('/api/recipes', {
-            params: {
-              ingredients: `${myList}&number=30&ranking=2`, // Replace with user's input
-            },
-          });
-          setRecipes(response.data);
+          const apiKey = process.env.REACT_APP_API_KEY
+          const apiUrl = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${myList}&apiKey=${apiKey}`;
+          console.log(apiUrl)
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+          console.log(data)
+          setRecipes(data)
           setLoading(false)
         } catch (error) {
           console.error(error);

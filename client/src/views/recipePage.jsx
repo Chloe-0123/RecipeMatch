@@ -24,13 +24,12 @@ export const RecipePage = () => {
         async function fetchData() {
           try {
             setLoading(true)
-            const response = await axios.get('/api/recipeInfo', {
-              params: {
-                id: id, 
-              },
-            });
-            setInfo(response.data);
-            console.log(response.data)
+            const apiKey = process.env.REACT_APP_API_KEY
+            const apiUrl = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`
+            console.log(apiUrl)
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            setInfo(data)
             setLoading(false)
           } catch (error) {
             console.error(error);

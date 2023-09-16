@@ -37,20 +37,14 @@ function App() {
 
     // Fetch ingredients based on user input
     try {
-      const response = await axiosInstance.get('/api/ingredients', {
-          params: {
-            ingredient: input,
-          },
-        }
-      );
-      const responseData = response.data;
-      if (Array.isArray(responseData)) {
-        // Ensure that the response data is an array
-        setIngredients(responseData);
-      } else {
-        console.error('API response is not an array:', responseData);
-      }
-      console.log(response.data)
+      console.log('dd')
+      const apiKey = process.env.REACT_APP_API_KEY
+      const apiUrl = `https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${apiKey}&query=${input}&number=5`;
+      console.log(apiUrl)
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      setIngredients(data)
+      console.log(data)
     } catch (error) {
       console.error(error);
     }
