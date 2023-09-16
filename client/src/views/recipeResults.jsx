@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux';
 import { Recipe } from '../components/Recipe';
 import { Footer } from '../components/Footer';
+import { axiosInstance } from '../axios';
 
 export const RecipeResults = () =>  {
     const [recipes, setRecipes] = useState([]);
@@ -18,7 +19,7 @@ export const RecipeResults = () =>  {
       async function fetchData() {
         try {
           setLoading(true)
-          const response = await axios.get('/api/recipes', {
+          const response = await axiosInstance.get('/api/recipes', {
             params: {
               ingredients: `${myList}&number=30&ranking=2`, // Replace with user's input
             },

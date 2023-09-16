@@ -21,6 +21,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Footer } from './components/Footer';
 import { Link } from 'react-router-dom';
+import { axiosInstance } from './axios';
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
 
     // Fetch ingredients based on user input
     try {
-      const response = await axios.get('/api/ingredients', {
+      const response = await axiosInstance.get('/api/ingredients', {
           params: {
             ingredient: input,
           },

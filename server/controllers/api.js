@@ -1,4 +1,4 @@
-
+const fetch = require('node-fetch'); 
 
 exports.getRecipe = async (req, res) => {
 
@@ -6,7 +6,7 @@ exports.getRecipe = async (req, res) => {
         const { ingredients } = req.query;
         const apiKey = process.env.API_KEY
         const apiUrl = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&apiKey=${apiKey}`;
-        const response = await axios.get(apiUrl);
+        const response = await fetch(apiUrl);
         res.json(response.data);
       } catch (error) {
         console.error(error);
@@ -23,7 +23,7 @@ exports.getIngredients = async (req, res) => {
         console.log(ingredient)
         const apiKey = process.env.API_KEY
         const apiUrl = `https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${apiKey}&query=${ingredient}&number=5`
-        const response = await axios.get(apiUrl)
+        const response = await fetch(apiUrl)
         res.json(response.data)
         console.log(response.data)
       } catch (error) {
@@ -40,7 +40,7 @@ exports.getInfo = async (req, res) => {
         console.log(id)
         const apiKey = process.env.API_KEY
         const apiUrl = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`
-        const response = await axios.get(apiUrl)
+        const response = await fetch(apiUrl)
         res.json(response.data)
         console.log(response.data)
       } catch (error) {
