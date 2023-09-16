@@ -10,6 +10,7 @@ const passport = require("passport");
 const mainroutes = require('./routes/main')
 const path = require('path');
 const dotenv =  require('dotenv')
+const recipeRoutes = require('./routes/recipe')
 
 
 dotenv.config({path: path.resolve(__dirname, 'config/.env')})
@@ -75,7 +76,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', mainroutes)
+app.use('/api', recipeRoutes)
 
+
+/*
 // get recipes by ingredients
 app.get('/api/recipes', async (req, res) => {
     try {
@@ -122,5 +126,5 @@ app.get('/api/recipeInfo', async (req, res) => {
     console.error(error);
         res.status(500).json({ message: 'Server error while loading autocomplete ingredients' });
   }
-})
+})*/
 
