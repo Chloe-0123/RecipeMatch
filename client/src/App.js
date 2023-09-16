@@ -42,7 +42,13 @@ function App() {
           },
         }
       );
-      setIngredients(response.data);
+      const responseData = response.data;
+      if (Array.isArray(responseData)) {
+        // Ensure that the response data is an array
+        setIngredients(responseData);
+      } else {
+        console.error('API response is not an array:', responseData);
+      }
       console.log(response.data)
     } catch (error) {
       console.error(error);
@@ -82,7 +88,7 @@ function App() {
   }
 
 
-  console.log(ingredientList)
+  console.log(ingredients)
 
   return (
     <>
@@ -124,7 +130,7 @@ function App() {
                 className='tw-border-b-2 tw-bg-transparent tw-border-black tw-w-full tw-outline-0'
               />
               <ul className='tw-bg-white'>
-              {ingredients.map((ingredient) => (<>
+              {Array.isArray(ingredients) ? ingredients.length !== 0 && ingredients.map((ingredient) => (<>
                   <ListItem>
                     <button onClick={() => handleSearchClick(ingredient.name)} className='tw-w-full tw-text-left'>
                       <ListItemText
@@ -133,7 +139,7 @@ function App() {
                       />
                     </button>
                   </ListItem></>
-              ))}
+              )) : console.log('NOT AN ARRAY')}
             </ul>
         </div>
         <div className='tw-w-[100%] md:tw-w-[30%] tw-flex tw-flex-col tw-gap-2 tw-items-center '>
